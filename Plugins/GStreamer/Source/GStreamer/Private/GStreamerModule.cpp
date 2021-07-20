@@ -3,6 +3,8 @@
 #include "SharedUnreal.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
 
+DEFINE_LOG_CATEGORY(LogGStreamer);
+
 class FGStreamerModule : public IGStreamerModule
 {
 public:
@@ -11,20 +13,14 @@ public:
 	virtual void ShutdownModule() override;
 };
 
-DEFINE_LOG_CATEGORY(LogGStreamer);
-
 static FString GetGstRoot()
 {
-	const int32 BufSize = 2048;
-	TCHAR RootPath[BufSize] = {0};
-
-	FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT_X86_64"), RootPath, BufSize);
-	if (!RootPath[0])
-	{
-		FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT"), RootPath, BufSize);
-	}
-
-	return FString(RootPath);
+	auto RootPath = FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_1_0_ROOT_MSVC_X86_64"));
+	if (RootPath.IsEmpty())
+		RootPath = FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT_X86_64"));
+	if (RootPath.IsEmpty())
+		RootPath = FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT"));
+	return RootPath;
 }
 
 void FGStreamerModule::StartupModule()

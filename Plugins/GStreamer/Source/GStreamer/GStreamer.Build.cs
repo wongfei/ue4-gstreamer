@@ -7,6 +7,7 @@ public class GStreamer : ModuleRules
     {
         const string GStreamerRoot = @"C:\dev\gstreamer_dev\1.0\msvc_x86_64";
 
+        DefaultBuildSettings = BuildSettingsVersion.V2;
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bEnableUndefinedIdentifierWarnings = false;
 

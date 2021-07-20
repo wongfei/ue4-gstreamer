@@ -20,6 +20,7 @@ static ELogVerbosity::Type ConvertVerbosity(EGstVerbosity::Type GstVerbosity)
 
 void GstLogA(const char* File, int Line, EGstVerbosity::Type Verbosity, const char* Format, ...)
 {
+#if !NO_LOGGING
 	char Buffer[LOG_BUF_SIZE];
 	va_list Argptr;
 	va_start(Argptr, Format);
@@ -32,17 +33,19 @@ void GstLogA(const char* File, int Line, EGstVerbosity::Type Verbosity, const ch
 		FString Message(ANSI_TO_TCHAR(Buffer));
 		FMsg::Logf_Internal(File, Line, LogGStreamer.GetCategoryName(), ConvertVerbosity(Verbosity), TEXT("%s"), *Message);
 	}
+#endif
 }
 
 void GstLogW(const char* File, int Line, EGstVerbosity::Type Verbosity, const wchar_t* Format, ...)
 {
+#if !NO_LOGGING
 	wchar_t Buffer[LOG_BUF_SIZE];
 	va_list Argptr;
 	va_start(Argptr, Format);
 	#if PLATFORM_WINDOWS
 		const int n = _vsnwprintf_s(Buffer, LOG_BUF_SIZE - 1, Format, Argptr);
 	#else
-		const int n = _vsnwprintf(Buffer, LOG_BUF_SIZE - 1, Format, Argptr);
+		const int n = vswprintf(Buffer, LOG_BUF_SIZE - 1, Format, Argptr);
 	#endif
 	va_end(Argptr);
 
@@ -51,6 +54,7 @@ void GstLogW(const char* File, int Line, EGstVerbosity::Type Verbosity, const wc
 		Buffer[n] = 0;
 		FMsg::Logf_Internal(File, Line, LogGStreamer.GetCategoryName(), ConvertVerbosity(Verbosity), TEXT("%s"), Buffer);
 	}
+#endif
 }
 
 void* SysLoadLibrary(const wchar_t* Name)
