@@ -4,13 +4,13 @@
 
 ## Getting Started
 
-Tested with UE4 4.20 and GStreamer 1.14.4
+Tested with UE4 4.26 and GStreamer 1.18.4
 
-Download and install [GStreamer binaries and dev files](https://gstreamer.freedesktop.org/download/)
+Download and install [GStreamer runtime and development packages](https://gstreamer.freedesktop.org/download/)
 
 Edit `Plugins\GStreamer\Source\GStreamer\GStreamer.Build.cs`
 
-Modify `const string GStreamerRoot = @"d:\dev\gstreamer1.14.4\1.0\x86_64"` to path where GStreamer installed
+Modify `const string GStreamerRoot = @"C:\dev\gstreamer_dev\1.0\msvc_x86_64"` to path where development package installed
 
 Launch project and hit play
 
