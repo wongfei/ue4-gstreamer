@@ -6,6 +6,7 @@ public class GStreamerDemoEditorTarget : TargetRules
 	public GStreamerDemoEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
+		DefaultBuildSettings = BuildSettingsVersion.V2;
 
 		bUseUnityBuild = false;
 		bUsePCHFiles = false;

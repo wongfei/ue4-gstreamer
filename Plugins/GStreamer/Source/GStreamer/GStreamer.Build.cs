@@ -5,7 +5,7 @@ public class GStreamer : ModuleRules
 {
     public GStreamer(ReadOnlyTargetRules Target) : base(Target)
     {
-        const string GStreamerRoot = @"d:\dev\gstreamer1.14.4\1.0\x86_64";
+        const string GStreamerRoot = @"C:\dev\gstreamer_dev\1.0\msvc_x86_64";
 
         PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
         bEnableUndefinedIdentifierWarnings = false;

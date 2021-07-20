@@ -18,15 +18,14 @@ public:
 void FGStreamerLoaderModule::StartupModule()
 {
 	#if PLATFORM_WINDOWS
-	const int32 BufSize = 2048;
-	TCHAR RootPath[BufSize] = {0};
 
-	FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT_X86_64"), RootPath, BufSize);
-	if (!RootPath[0])
-	{
-		FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT"), RootPath, BufSize);
-	}
-	if (RootPath[0])
+	auto RootPath = FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_1_0_ROOT_MSVC_X86_64"));
+	if (RootPath.IsEmpty())
+		RootPath = FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT_X86_64"));
+	if (RootPath.IsEmpty())
+		RootPath = FPlatformMisc::GetEnvironmentVariable(TEXT("GSTREAMER_ROOT"));
+
+	if (!RootPath.IsEmpty())
 	{
 		FString BinPath = FPaths::Combine(RootPath, TEXT("bin"));
 		SetDllDirectoryW(*BinPath);
