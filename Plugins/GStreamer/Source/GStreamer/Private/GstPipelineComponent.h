@@ -18,9 +18,6 @@ public:
 	virtual void UninitializeComponent() override;
 
 	UPROPERTY(Category="GstPipeline", EditAnywhere, BlueprintReadWrite)
-	FString PipelineName;
-
-	UPROPERTY(Category="GstPipeline", EditAnywhere, BlueprintReadWrite)
 	FString PipelineConfig;
 
 	UPROPERTY(Category="GstPipeline", EditAnywhere, BlueprintReadWrite)

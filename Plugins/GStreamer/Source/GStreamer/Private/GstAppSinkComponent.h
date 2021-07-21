@@ -17,16 +17,19 @@ public:
 
 	UGstAppSinkComponent();
 
-	virtual void UninitializeComponent() override;
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	// UActorComponent
+	void UninitializeComponent() override;
+	void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	virtual void CbPipelineStart(class IGstPipeline* Pipeline);
-	virtual void CbPipelineStop();
-	virtual void CbGstSampleReceived(class IGstSample* Sample);
-	virtual void CbGstTextureCreated();
+	// UGstElementComponent
+	void CbPipelineStart(class IGstPipeline* Pipeline) override;
+	void CbPipelineStop() override;
 
-	UPROPERTY(Category="GstAppSink", EditAnywhere, BlueprintReadWrite)
-	FString PipelineName;
+	// IGstAppSinkCallback
+	void CbGstSampleReceived(class IGstSample* Sample) override;
+
+	// IGstTextureCallback
+	void CbGstTextureCreated() override;
 
 	UPROPERTY(Category="GstAppSink", EditAnywhere, BlueprintReadWrite)
 	FString AppSinkName;

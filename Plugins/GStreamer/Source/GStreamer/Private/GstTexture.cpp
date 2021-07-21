@@ -64,21 +64,11 @@ void FGstTexture::TickGameThread()
 		if (m_TextureObject)
 		{
 			// render commands should be submitted only from game thread
-			#if 0
-			ENQUEUE_UNIQUE_RENDER_COMMAND_TWOPARAMETER(
-				UpdateTextureCmd,
-				FGstTexture*, Context, this,
-				IGstSample*, Sample, Sample,
-			{
-				Context->RenderCmd_UpdateTexture(Sample);
-			});
-			#else
 			auto Context = this;
 			ENQUEUE_RENDER_COMMAND(SceneDrawCompletion)([Context, Sample](FRHICommandListImmediate& RHICmdList)
 			{
 				Context->RenderCmd_UpdateTexture(Sample);
 			});
-			#endif
 
 			m_EnqueCount++;
 		}
@@ -112,7 +102,6 @@ void FGstTexture::RenderCmd_UpdateTexture(IGstSample* Sample)
 	if (Tex && Tex->Resource)
 	{
 		RHIUpdateTexture2D(
-			//((FTexture2DResource*)Tex->Resource)->GetTexture2DRHI(),
 			Tex->Resource->GetTexture2DRHI(),
 			0,
 			FUpdateTextureRegion2D(0, 0, 0, 0, Sample->GetWidth(), Sample->GetHeight()),
@@ -157,20 +146,11 @@ void FGstTexture::Resize(IGstSample* Sample)
 		m_Height = Sample->GetHeight();
 		m_Pitch = m_Width * GPixelFormats[m_UeFormat].BlockBytes;
 
-		#if 0
-		ENQUEUE_UNIQUE_RENDER_COMMAND_ONEPARAMETER(
-			CreateTextureCmd,
-			FGstTexture*, Context, this,
-		{
-			Context->RenderCmd_CreateTexture();
-		});
-		#else
 		auto Context = this;
 		ENQUEUE_RENDER_COMMAND(SceneDrawCompletion)([Context](FRHICommandListImmediate& RHICmdList)
 		{
 			Context->RenderCmd_CreateTexture();
 		});
-		#endif
 	}
 }
 

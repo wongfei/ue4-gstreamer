@@ -46,7 +46,7 @@ bool UGstPipelineComponent::StartPipeline()
 		Pipeline = IGstPipeline::CreateInstance();
 		if (Pipeline->Init(TCHAR_TO_ANSI(*PipelineName), TCHAR_TO_ANSI(*PipelineConfig)))
 		{
-			TInlineComponentArray<UGstAppSinkComponent*> Components;
+			TInlineComponentArray<UGstElementComponent*> Components;
 			GetOwner()->GetComponents(Components);
 			for (auto* Comp : Components)
 			{
@@ -68,7 +68,7 @@ void UGstPipelineComponent::StopPipeline()
 {
 	if (Pipeline)
 	{
-		TInlineComponentArray<UGstAppSinkComponent*> Components;
+		TInlineComponentArray<UGstElementComponent*> Components;
 		GetOwner()->GetComponents(Components);
 		for (auto* Comp : Components)
 		{

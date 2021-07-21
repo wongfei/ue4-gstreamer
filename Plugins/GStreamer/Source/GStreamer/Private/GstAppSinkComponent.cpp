@@ -15,7 +15,8 @@ void UGstAppSinkComponent::UninitializeComponent()
 
 void UGstAppSinkComponent::ResetState()
 {
-	if (AppSink) AppSink->Disconnect();
+	if (AppSink)
+		AppSink->Disconnect();
 	SafeDestroy(Texture);
 	SafeDestroy(AppSink);
 }

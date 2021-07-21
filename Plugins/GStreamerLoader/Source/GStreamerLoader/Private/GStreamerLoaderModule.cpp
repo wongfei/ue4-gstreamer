@@ -30,7 +30,7 @@ void FGStreamerLoaderModule::StartupModule()
 	UE_LOG(LogInit, Display, TEXT("GStreamerLoader::StartupModule"));
 
 #if PLATFORM_WINDOWS
-	auto RootPath = GetGstRoot();
+	FString RootPath = GetGstRoot();
 	if (!RootPath.IsEmpty())
 	{
 		UE_LOG(LogInit, Display, TEXT("GSTREAMER_ROOT: \"%s\""), *RootPath);

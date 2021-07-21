@@ -18,4 +18,10 @@ public:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 	virtual void UninitializeComponent() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	virtual void CbPipelineStart(class IGstPipeline* Pipeline) {}
+	virtual void CbPipelineStop() {}
+
+	UPROPERTY(Category="GstPipeline", EditAnywhere, BlueprintReadWrite)
+	FString PipelineName;
 };

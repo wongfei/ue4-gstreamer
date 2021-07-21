@@ -71,7 +71,3 @@ void* SysGetProcAddress(void* Handle, const char* Name)
 {
 	return FPlatformProcess::GetDllExport(Handle, ANSI_TO_TCHAR(Name));
 }
-
-#if defined(PROF_ENABLED)
-	#include "Profiler.inl"
-#endif

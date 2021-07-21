@@ -193,6 +193,14 @@ gboolean FGstPipelineImpl::OnBusMessage(GstMessage* Message)
 			GST_LOG_ERR_A("GstPipeline: BUS WARNING <%s>", m_Name.c_str());
 			break;
 
+		case GST_MESSAGE_STATE_CHANGED:
+		{
+			GstState old_state, new_state;
+			gst_message_parse_state_changed (Message, &old_state, &new_state, NULL);
+			GST_LOG_DBG_A("GstPipeline: STATE CHANGED <%s> %s -> %s", m_Name.c_str(), gst_element_state_get_name(old_state), gst_element_state_get_name(new_state));
+			break;
+		}
+
 		default:
 		{
 			GST_LOG_DBG_A("GstPipeline: OnBusMessage <%s> %s (%d)", m_Name.c_str(), gst_message_type_get_name((GstMessageType)Type), Type);
