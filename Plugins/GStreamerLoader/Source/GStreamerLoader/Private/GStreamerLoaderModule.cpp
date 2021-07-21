@@ -27,14 +27,30 @@ static FString GetGstRoot()
 
 void FGStreamerLoaderModule::StartupModule()
 {
-	#if PLATFORM_WINDOWS
+	UE_LOG(LogInit, Display, TEXT("GStreamerLoader::StartupModule"));
+
+#if PLATFORM_WINDOWS
 	auto RootPath = GetGstRoot();
 	if (!RootPath.IsEmpty())
 	{
+		UE_LOG(LogInit, Display, TEXT("GSTREAMER_ROOT: \"%s\""), *RootPath);
 		FString BinPath = FPaths::Combine(RootPath, TEXT("bin"));
-		SetDllDirectoryW(*BinPath);
+		if (FPaths::DirectoryExists(BinPath))
+		{
+			SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
+			//SetDllDirectoryW(*BinPath);
+			AddDllDirectory(*BinPath);
+		}
+		else
+		{
+			UE_LOG(LogInit, Error, TEXT("Directory not found: \"%s\""), *BinPath);
+		}
 	}
-	#endif
+	else
+	{
+		UE_LOG(LogInit, Error, TEXT("GSTREAMER_ROOT not found"));
+	}
+#endif
 }
 
 void FGStreamerLoaderModule::ShutdownModule()

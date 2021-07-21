@@ -30,17 +30,29 @@ void FGStreamerModule::StartupModule()
 	INIT_PROFILER;
 
 	FString RootPath = GetGstRoot();
-	FString BinPath = FPaths::Combine(RootPath, TEXT("bin"));
-	FString PluginPath = FPaths::Combine(RootPath, TEXT("lib"), TEXT("gstreamer-1.0"));
-	GST_LOG_DBG(TEXT("GStreamer: GSTREAMER_ROOT=\"%s\""), *RootPath);
-
-	if (FGstCoreImpl::Init(TCHAR_TO_ANSI(*BinPath), TCHAR_TO_ANSI(*PluginPath)))
+	if (!RootPath.IsEmpty())
 	{
-		GST_LOG_DBG(TEXT("GStreamer: Init SUCCESS"));
+		UE_LOG(LogGStreamer, Display, TEXT("GSTREAMER_ROOT: \"%s\""), *RootPath);
 	}
 	else
 	{
-		GST_LOG_ERR(TEXT("GStreamer: Init FAILED"));
+		UE_LOG(LogGStreamer, Error, TEXT("GSTREAMER_ROOT not found"));
+	}
+
+	FString BinPath = FPaths::Combine(RootPath, TEXT("bin"));
+	FString PluginPath = FPaths::Combine(RootPath, TEXT("lib"), TEXT("gstreamer-1.0"));
+	if (!FPaths::DirectoryExists(BinPath))
+	{
+		UE_LOG(LogGStreamer, Error, TEXT("Directory not found: \"%s\""), *BinPath);
+	}
+
+	if (FGstCoreImpl::Init(TCHAR_TO_ANSI(*BinPath), TCHAR_TO_ANSI(*PluginPath)))
+	{
+		UE_LOG(LogGStreamer, Display, TEXT("GstCore: Init SUCCESS"));
+	}
+	else
+	{
+		UE_LOG(LogGStreamer, Error, TEXT("GstCore: Init FAILED"));
 	}
 }
 
