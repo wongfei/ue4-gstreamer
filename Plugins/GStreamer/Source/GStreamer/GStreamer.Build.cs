@@ -38,6 +38,12 @@ public class GStreamer : ModuleRules
             PublicAdditionalLibraries.Add("gstreamer-1.0.lib");
             PublicAdditionalLibraries.Add("gstvideo-1.0.lib");
             PublicAdditionalLibraries.Add("gstapp-1.0.lib");
+
+            PublicDelayLoadDLLs.Add("glib-2.0-0.dll");
+            PublicDelayLoadDLLs.Add("gobject-2.0-0.dll");
+            PublicDelayLoadDLLs.Add("gstreamer-1.0-0.dll");
+            PublicDelayLoadDLLs.Add("gstvideo-1.0-0.dll");
+            PublicDelayLoadDLLs.Add("gstapp-1.0-0.dll");
         }
     }
 }
