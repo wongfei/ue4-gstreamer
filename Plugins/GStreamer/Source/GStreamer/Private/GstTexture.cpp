@@ -1,6 +1,7 @@
 #include "GstTexture.h"
 #include "RenderUtils.h"
 #include "TextureResource.h"
+#include "Async/Async.h"
 
 #include "GstAppSinkImpl.h"
 #include "GstSampleImpl.h"
@@ -147,10 +148,16 @@ void FGstTexture::Resize(IGstSample* Sample)
 		m_Pitch = m_Width * GPixelFormats[m_UeFormat].BlockBytes;
 
 		auto Context = this;
+		#if (ENGINE_MAJOR_VERSION == 4 && ENGINE_MINOR_VERSION <= 26)
 		ENQUEUE_RENDER_COMMAND(SceneDrawCompletion)([Context](FRHICommandListImmediate& RHICmdList)
 		{
 			Context->RenderCmd_CreateTexture();
 		});
+		#else
+		AsyncTask(ENamedThreads::GameThread, [Context]() {
+			Context->RenderCmd_CreateTexture();
+		});
+		#endif
 	}
 }
 
