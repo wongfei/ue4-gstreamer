@@ -81,3 +81,9 @@ void UGstPipelineComponent::StopPipeline()
 
 	ResetState();
 }
+
+void UGstPipelineComponent::SetVerbosity(int Verbosity)
+{
+	Verbosity = FMath::Clamp<int>(Verbosity, 0, (int)EGstVerbosity::_COUNT - 1);
+	GstSetVerbosity((EGstVerbosity::Type)Verbosity);
+}

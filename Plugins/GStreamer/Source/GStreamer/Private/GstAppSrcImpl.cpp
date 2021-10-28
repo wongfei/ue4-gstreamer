@@ -96,6 +96,6 @@ void FGstAppSrcImpl::PushBuffer(IGstAppSrcBuffer* Buffer)
 	const GstFlowReturn Result = gst_app_src_push_buffer(GST_APP_SRC(m_AppSrc), BufferObj);
 	if (Result != GST_FLOW_OK)
 	{
-		GST_LOG_ERR_A("GstAppSrc: GstFlowReturn <%s>", gst_flow_get_name(Result));
+		GST_LOG_ERR_A("gst_app_src_push_buffer failed: GstFlowReturn=%d (%s)", (int)Result, gst_flow_get_name(Result));
 	}
 }

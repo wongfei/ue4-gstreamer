@@ -29,6 +29,9 @@ public:
 	UFUNCTION(Category="GstPipeline", BlueprintCallable)
 	void StopPipeline();
 
+	UFUNCTION(Category="GstPipeline", BlueprintCallable)
+	static void SetVerbosity(int Verbosity);
+
 protected:
 
 	void ResetState();

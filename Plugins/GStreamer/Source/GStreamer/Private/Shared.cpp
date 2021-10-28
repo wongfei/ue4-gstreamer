@@ -7,12 +7,25 @@
 
 #define LOG_BUF_SIZE 2048
 
+static EGstVerbosity::Type _GstVerbosity = EGstVerbosity::Error;
+
+void GstSetVerbosity(EGstVerbosity::Type Verbosity)
+{
+	_GstVerbosity = Verbosity;
+}
+
+EGstVerbosity::Type GstGetVerbosity()
+{
+	return _GstVerbosity;
+}
+
 static ELogVerbosity::Type ConvertVerbosity(EGstVerbosity::Type GstVerbosity)
 {
 	switch (GstVerbosity)
 	{
 		case EGstVerbosity::Error: return ELogVerbosity::Error;
 		case EGstVerbosity::Warning: return ELogVerbosity::Warning;
+		case EGstVerbosity::Info: return ELogVerbosity::Display;
 		case EGstVerbosity::Debug: return ELogVerbosity::Display;
 	}
 	return ELogVerbosity::Display;
@@ -21,6 +34,9 @@ static ELogVerbosity::Type ConvertVerbosity(EGstVerbosity::Type GstVerbosity)
 void GstLogA(const char* File, int Line, EGstVerbosity::Type Verbosity, const char* Format, ...)
 {
 #if !NO_LOGGING
+	if (Verbosity > _GstVerbosity)
+		return;
+
 	char Buffer[LOG_BUF_SIZE];
 	va_list Argptr;
 	va_start(Argptr, Format);
@@ -39,6 +55,9 @@ void GstLogA(const char* File, int Line, EGstVerbosity::Type Verbosity, const ch
 void GstLogW(const char* File, int Line, EGstVerbosity::Type Verbosity, const wchar_t* Format, ...)
 {
 #if !NO_LOGGING
+	if (Verbosity > _GstVerbosity)
+		return;
+
 	wchar_t Buffer[LOG_BUF_SIZE];
 	va_list Argptr;
 	va_start(Argptr, Format);

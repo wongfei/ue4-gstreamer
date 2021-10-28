@@ -54,7 +54,7 @@ static void ThreadWorkerFunc(FGstPipelineImpl* Context) { Context->WorkerLoop();
 
 bool FGstPipelineImpl::Init(const char* Name, const char* Config)
 {
-	GST_LOG_DBG_A("GstPipeline: Init <%s>", Name);
+	GST_LOG_INFO_A("GstPipeline: Init <%s>", Name);
 
 	if (m_Pipeline)
 	{
@@ -66,7 +66,7 @@ bool FGstPipelineImpl::Init(const char* Name, const char* Config)
 	{
 		m_Name = Name;
 
-		GST_LOG_DBG_A("GstPipeline: gst_parse_launch \"%s\"", Config);
+		GST_LOG_INFO_A("GstPipeline: gst_parse_launch \"%s\"", Config);
 		GError* Error = nullptr;
 		m_Pipeline = gst_parse_launch(Config, &Error);
 		if (Error)
@@ -100,7 +100,7 @@ void FGstPipelineImpl::Shutdown()
 
 	if (m_Pipeline)
 	{
-		GST_LOG_DBG_A("GstPipeline: Shutdown <%s>", m_Name.c_str());
+		GST_LOG_INFO_A("GstPipeline: Shutdown <%s>", m_Name.c_str());
 		gst_element_set_state(m_Pipeline, GST_STATE_NULL);
 	}
 
@@ -110,7 +110,7 @@ void FGstPipelineImpl::Shutdown()
 
 bool FGstPipelineImpl::Start()
 {
-	GST_LOG_DBG_A("GstPipeline: Start <%s>", m_Name.c_str());
+	GST_LOG_INFO_A("GstPipeline: Start <%s>", m_Name.c_str());
 
 	if (m_Loop)
 	{
@@ -142,7 +142,7 @@ void FGstPipelineImpl::Stop()
 {
 	if (m_Loop)
 	{
-		GST_LOG_DBG_A("GstPipeline: Stop <%s>", m_Name.c_str());
+		GST_LOG_INFO_A("GstPipeline: Stop <%s>", m_Name.c_str());
 
 		g_main_loop_quit(m_Loop);
 
