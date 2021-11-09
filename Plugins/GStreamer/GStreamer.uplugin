@@ -16,11 +16,5 @@
       "LoadingPhase": "PostEngineInit",
       "WhitelistPlatforms": [ "Win64" ]
     }
-  ],
-  "Plugins": [
-    {
-      "Name": "GStreamerLoader",
-      "Enabled": true
-    }
   ]
 }

@@ -3,6 +3,12 @@
 #include "SharedUnreal.h"
 #include "Runtime/Core/Public/Misc/Paths.h"
 
+#if PLATFORM_WINDOWS
+	#include "Windows/AllowWindowsPlatformTypes.h"
+	#include <windows.h>
+	#include "Windows/HideWindowsPlatformTypes.h"
+#endif
+
 DEFINE_LOG_CATEGORY(LogGStreamer);
 
 class FGStreamerModule : public IGStreamerModule
@@ -25,7 +31,7 @@ static FString GetGstRoot()
 
 void FGStreamerModule::StartupModule()
 {
-	GST_LOG_DBG(TEXT("StartupModule"));
+	UE_LOG(LogGStreamer, Display, TEXT("GStreamerModule::StartupModule"));
 
 	INIT_PROFILER;
 
@@ -37,7 +43,13 @@ void FGStreamerModule::StartupModule()
 	{
 		UE_LOG(LogGStreamer, Display, TEXT("GSTREAMER_ROOT: \"%s\""), *RootPath);
 		BinPath = FPaths::Combine(RootPath, TEXT("bin"));
-		if (!FPaths::DirectoryExists(BinPath))
+		if (FPaths::DirectoryExists(BinPath))
+		{
+			SetDefaultDllDirectories(LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
+			//SetDllDirectoryW(*BinPath);
+			AddDllDirectory(*BinPath);
+		}
+		else
 		{
 			UE_LOG(LogGStreamer, Error, TEXT("Directory not found: \"%s\""), *BinPath);
 			BinPath = "";
